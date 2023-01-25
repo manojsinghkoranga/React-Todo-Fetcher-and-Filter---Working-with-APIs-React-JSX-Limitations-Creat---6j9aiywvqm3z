@@ -13,6 +13,7 @@
             const response = await fetch(`https://jsonplaceholder.typicode.com/todos`);
             const json = await response.json();
             setFetchedData(json);
+            console.log(json);
             setDataFetched(true);
         }
         fetchTodo();
@@ -30,11 +31,29 @@
     return(
         <>{dataFetched &&
             <>
-                {
-                    fetchedData.map((obj) => {
-                        
-                    })
-                }
+                <ol>
+                    {
+                        fetchedData.map((obj) => {
+                            if(isCompleted && obj.completed === true && obj.id <= 20){
+                                return <li key={obj.id}>
+                                    <div className="todo" id={`todo-${obj.id}`}>
+                                        <div className="todo-text">{obj.title}</div>
+                                        <div className="todo-status">{'Completed'}</div>
+                                    </div>
+                                </li>
+                            }
+                            if(isIncompleted && obj.completed === false && obj.id <= 20){
+                                return <li key={obj.id}>
+                                    <div className="todo" id={`todo-${obj.id}`}>
+                                        <div className="todo-text">{obj.title}</div>
+                                        <div className="todo-status">{'Incomplete'}</div>
+                                    </div>
+                                </li>
+                            }
+                        })
+                    }
+                </ol>
+            
                 <div id="filter-holder">
                     Show completed <input id="completed-checkbox" type={'checkbox'} value={'Show Complete'} checked={isCompleted} onChange={handleCompleted} />
                     <br/>
